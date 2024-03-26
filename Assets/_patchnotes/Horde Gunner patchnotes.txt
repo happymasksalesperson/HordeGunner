@@ -1,0 +1,20 @@
+1.0
+
+-- Added HealthComponent.cs, ITakeDamage, Editor
+
+-- Health can heal, die, reserruct from the dead
+
+1.1
+
+-- added Explosive.cs. Explosive flings rigidbodies around and damages HealthComponents inside its radius
+
+1.2
+
+-- added new InputActions package. Added PlayerControls and PlayerInputs.cs. successfully reads mouse clicks and scroll wheel
+
+-- added WeaponScriptableObject.cs. for making multiple custom weapons
+
+-- added PlayerInventory.cs. Player can now unlock weapons, and scroll between unlocked weapons to equip them
+
+-- failed to add NavMesh package
+
