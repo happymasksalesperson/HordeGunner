@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class PlayerInventory : MonoBehaviour
 
    public int equipIndex;
 
+   public event Action<WeaponScriptableObject> AnnounceEquippedWeapon;
+
    public void Start()
    {
       controls.AnnounceMouseScroll += Scroll;
@@ -22,6 +25,8 @@ public class PlayerInventory : MonoBehaviour
       {
          UnlockWeapon(wep);
       }
+      
+      EquipWeapon(equippedWeapons[0]);
    }
 
    private void Scroll(float input)
@@ -64,10 +69,12 @@ public class PlayerInventory : MonoBehaviour
             wep.ChangeEquip(false);
       }
       newWep.ChangeEquip(true);
+      AnnounceEquippedWeapon?.Invoke(newWep);
    }
    
    void OnDisable()
    {
+      equippedWeapons.Clear();
       controls.AnnounceMouseScroll -= Scroll;
    }
 }

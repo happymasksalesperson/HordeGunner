@@ -10,6 +10,8 @@ public class PlayerControls : MonoBehaviour
 
     public float scrollValue;
 
+    public Vector2 mousePos;
+
     public event Action<InputAction.CallbackContext> AnnounceLeftClick;
 
     public event Action<InputAction.CallbackContext> AnnounceRightClick;
@@ -21,13 +23,15 @@ public class PlayerControls : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerInputs.Enable();
         
-        playerInputs.WeaponInputs.LeftClick.performed += LeftClick;
-        playerInputs.WeaponInputs.LeftClick.canceled += LeftClick;
+        playerInputs.MouseInputs.LeftClick.performed += LeftClick;
+        playerInputs.MouseInputs.LeftClick.canceled += LeftClick;
 
-        playerInputs.WeaponInputs.RightClick.performed += RightClick;
-        playerInputs.WeaponInputs.RightClick.canceled += RightClick;
+        playerInputs.MouseInputs.RightClick.performed += RightClick;
+        playerInputs.MouseInputs.RightClick.canceled += RightClick;
 
-        playerInputs.WeaponInputs.Scroll.performed += x => scrollValue = x.ReadValue<float>();
+        playerInputs.MouseInputs.Scroll.performed += x => scrollValue = x.ReadValue<float>();
+        
+        playerInputs.MouseInputs.MousePoint.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
     }
 
     private void LeftClick(InputAction.CallbackContext input)
@@ -55,9 +59,9 @@ public class PlayerControls : MonoBehaviour
 
     void OnDisable()
     {
-        playerInputs.WeaponInputs.LeftClick.performed -= LeftClick;
-        playerInputs.WeaponInputs.LeftClick.canceled -= LeftClick;
-        playerInputs.WeaponInputs.RightClick.performed -= RightClick;
-        playerInputs.WeaponInputs.RightClick.canceled -= RightClick;
+        playerInputs.MouseInputs.LeftClick.performed -= LeftClick;
+        playerInputs.MouseInputs.LeftClick.canceled -= LeftClick;
+        playerInputs.MouseInputs.RightClick.performed -= RightClick;
+        playerInputs.MouseInputs.RightClick.canceled -= RightClick;
     }
 }

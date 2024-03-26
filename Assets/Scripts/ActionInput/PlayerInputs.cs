@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/PlayerControls/PlayerInputs.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/ActionInput/PlayerInputs.inputactions'
 
 using System;
 using System.Collections;
@@ -15,7 +15,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     ""name"": ""PlayerInputs"",
     ""maps"": [
         {
-            ""name"": ""WeaponInputs"",
+            ""name"": ""MouseInputs"",
             ""id"": ""05604190-b960-4dc9-a9c6-f1138421f59e"",
             ""actions"": [
                 {
@@ -39,6 +39,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""20041e18-336b-4e2e-b212-51b0eb8c9ffa"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MousePoint"",
+                    ""type"": ""Value"",
+                    ""id"": ""d1486eb9-192d-4a3c-bb69-ebae7942bb51"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -76,17 +84,29 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f647076a-189f-49ef-89cc-bec921b8764b"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // WeaponInputs
-        m_WeaponInputs = asset.FindActionMap("WeaponInputs", throwIfNotFound: true);
-        m_WeaponInputs_Scroll = m_WeaponInputs.FindAction("Scroll", throwIfNotFound: true);
-        m_WeaponInputs_LeftClick = m_WeaponInputs.FindAction("LeftClick", throwIfNotFound: true);
-        m_WeaponInputs_RightClick = m_WeaponInputs.FindAction("RightClick", throwIfNotFound: true);
+        // MouseInputs
+        m_MouseInputs = asset.FindActionMap("MouseInputs", throwIfNotFound: true);
+        m_MouseInputs_Scroll = m_MouseInputs.FindAction("Scroll", throwIfNotFound: true);
+        m_MouseInputs_LeftClick = m_MouseInputs.FindAction("LeftClick", throwIfNotFound: true);
+        m_MouseInputs_RightClick = m_MouseInputs.FindAction("RightClick", throwIfNotFound: true);
+        m_MouseInputs_MousePoint = m_MouseInputs.FindAction("MousePoint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -133,39 +153,44 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // WeaponInputs
-    private readonly InputActionMap m_WeaponInputs;
-    private IWeaponInputsActions m_WeaponInputsActionsCallbackInterface;
-    private readonly InputAction m_WeaponInputs_Scroll;
-    private readonly InputAction m_WeaponInputs_LeftClick;
-    private readonly InputAction m_WeaponInputs_RightClick;
-    public struct WeaponInputsActions
+    // MouseInputs
+    private readonly InputActionMap m_MouseInputs;
+    private IMouseInputsActions m_MouseInputsActionsCallbackInterface;
+    private readonly InputAction m_MouseInputs_Scroll;
+    private readonly InputAction m_MouseInputs_LeftClick;
+    private readonly InputAction m_MouseInputs_RightClick;
+    private readonly InputAction m_MouseInputs_MousePoint;
+    public struct MouseInputsActions
     {
         private @PlayerInputs m_Wrapper;
-        public WeaponInputsActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Scroll => m_Wrapper.m_WeaponInputs_Scroll;
-        public InputAction @LeftClick => m_Wrapper.m_WeaponInputs_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_WeaponInputs_RightClick;
-        public InputActionMap Get() { return m_Wrapper.m_WeaponInputs; }
+        public MouseInputsActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Scroll => m_Wrapper.m_MouseInputs_Scroll;
+        public InputAction @LeftClick => m_Wrapper.m_MouseInputs_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_MouseInputs_RightClick;
+        public InputAction @MousePoint => m_Wrapper.m_MouseInputs_MousePoint;
+        public InputActionMap Get() { return m_Wrapper.m_MouseInputs; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(WeaponInputsActions set) { return set.Get(); }
-        public void SetCallbacks(IWeaponInputsActions instance)
+        public static implicit operator InputActionMap(MouseInputsActions set) { return set.Get(); }
+        public void SetCallbacks(IMouseInputsActions instance)
         {
-            if (m_Wrapper.m_WeaponInputsActionsCallbackInterface != null)
+            if (m_Wrapper.m_MouseInputsActionsCallbackInterface != null)
             {
-                @Scroll.started -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnScroll;
-                @Scroll.performed -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnScroll;
-                @Scroll.canceled -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnScroll;
-                @LeftClick.started -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnLeftClick;
-                @LeftClick.performed -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnLeftClick;
-                @LeftClick.canceled -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnLeftClick;
-                @RightClick.started -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnRightClick;
-                @RightClick.performed -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnRightClick;
-                @RightClick.canceled -= m_Wrapper.m_WeaponInputsActionsCallbackInterface.OnRightClick;
+                @Scroll.started -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnScroll;
+                @LeftClick.started -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnLeftClick;
+                @RightClick.started -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnRightClick;
+                @RightClick.performed -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnRightClick;
+                @RightClick.canceled -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnRightClick;
+                @MousePoint.started -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnMousePoint;
+                @MousePoint.performed -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnMousePoint;
+                @MousePoint.canceled -= m_Wrapper.m_MouseInputsActionsCallbackInterface.OnMousePoint;
             }
-            m_Wrapper.m_WeaponInputsActionsCallbackInterface = instance;
+            m_Wrapper.m_MouseInputsActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Scroll.started += instance.OnScroll;
@@ -177,14 +202,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @RightClick.started += instance.OnRightClick;
                 @RightClick.performed += instance.OnRightClick;
                 @RightClick.canceled += instance.OnRightClick;
+                @MousePoint.started += instance.OnMousePoint;
+                @MousePoint.performed += instance.OnMousePoint;
+                @MousePoint.canceled += instance.OnMousePoint;
             }
         }
     }
-    public WeaponInputsActions @WeaponInputs => new WeaponInputsActions(this);
-    public interface IWeaponInputsActions
+    public MouseInputsActions @MouseInputs => new MouseInputsActions(this);
+    public interface IMouseInputsActions
     {
         void OnScroll(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+        void OnMousePoint(InputAction.CallbackContext context);
     }
 }

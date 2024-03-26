@@ -13,16 +13,21 @@ public class WeaponScriptableObject : ScriptableObject
     public GameObject projectile;
 
     public bool equipped = false;
+    public bool unlocked = false;
+    public bool readyToFire = true;
 
     public void ChangeEquip(bool input)
     {
         equipped = input;
     }
 
-    public bool unlocked = false;
-
     public void ChangeUnlock(bool input)
     {
         unlocked = input;
+    }
+
+    public void ChangeReadyToFire(bool input)
+    {
+        readyToFire = input;
     }
 }
