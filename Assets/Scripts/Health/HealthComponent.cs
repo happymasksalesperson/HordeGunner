@@ -13,6 +13,8 @@ public class HealthComponent : MonoBehaviour, ITakeDamage
 
     public event Action<int> AnnounceChangeHealth;
 
+    public event Action<GameObject> AnnounceGameObject;
+    
     public event Action AnnounceDeath;
 
     public int testHPAmount;
@@ -46,15 +48,14 @@ public class HealthComponent : MonoBehaviour, ITakeDamage
             HP = 0;
             isAlive = false;
             AnnounceDeath?.Invoke();
+            AnnounceGameObject?.Invoke(gameObject);
         }
 
         else if (newHP >= maxHP)
             HP = maxHP;
 
         else
-        {
             HP = newHP;
-        }
 
         if (HP > 0)
             isAlive = true;

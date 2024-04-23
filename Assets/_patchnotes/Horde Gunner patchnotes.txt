@@ -18,3 +18,19 @@
 
 -- failed to add NavMesh package
 
+1.3
+
+-- added AnthillAIPackage
+
+-- added NipperSensor.cs, NipperView.cs, NipperScenarioEnum.cs, NipperScenario Enum. Made states Spawn, Run, Death, Attack
+
+-- Nippers now successfully use animations with all LODs
+
+-- added KnifePrefab
+
+-- updated PlayerInventory to revert back to Default Inputs
+
+-- added NPCSpawner.cs
+
+-- the player can now shoot projectiles that kill nippers. npc pool reuses dead nippers instead of spawning new ones
+

@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public PlayerControls controls;
 
     public PlayerInventory inventory;
 
@@ -14,7 +13,6 @@ public class PlayerShoot : MonoBehaviour
     public void Start()
     {
         inventory.AnnounceEquippedWeapon += EquipWeapon;
-        controls.AnnounceLeftClick += Shoot;  
     }
     
     private void EquipWeapon(WeaponScriptableObject newWep)
@@ -44,6 +42,5 @@ public class PlayerShoot : MonoBehaviour
     void OnDisable()
     {
         inventory.AnnounceEquippedWeapon -= EquipWeapon;
-        controls.AnnounceLeftClick -= Shoot;
     }
 }

@@ -1314,7 +1314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2032166810523771335}
   m_Layer: 0
-  m_Name: Nipper_Death 1
+  m_Name: Nipper_Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1328,7 +1328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3055953113661658068}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 13.46117, y: 2.736034, z: 2.0966983}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2350243852507130441}

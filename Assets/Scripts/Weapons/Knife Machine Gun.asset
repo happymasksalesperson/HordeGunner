@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fe5597e7e26cc2429dc1a8dd80ddcc5, type: 3}
-  m_Name: Machinegun
+  m_Name: Knife Machine Gun
   m_EditorClassIdentifier: 
   name: Machine Gun
+  projectileSpeed: 50
   firingRate: 0.3
-  damage: 1
-  projectile: {fileID: 0}
-  equipped: 0
-  unlocked: 0
+  damage: -100
+  projectile: {fileID: 4335027342880507766, guid: 5b0e5fc0b65e6ef4b9ec202c834072c7,
+    type: 3}
+  equipped: 1
+  unlocked: 1
+  readyToFire: 1

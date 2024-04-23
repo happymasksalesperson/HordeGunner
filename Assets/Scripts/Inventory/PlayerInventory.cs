@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerInventory : MonoBehaviour
 {
-   public PlayerControls controls;
+   public Transform firePoint;
+
+   public GameObject model;
 
    public WeaponScriptableObject equippedWeapon;
    
@@ -15,18 +18,40 @@ public class PlayerInventory : MonoBehaviour
 
    public int equipIndex;
 
+   public bool initialised = false;
+   
    public event Action<WeaponScriptableObject> AnnounceEquippedWeapon;
 
    public void Start()
    {
-      controls.AnnounceMouseScroll += Scroll;
-
       foreach (WeaponScriptableObject wep in allWeapons)
       {
          UnlockWeapon(wep);
       }
-      
-      EquipWeapon(equippedWeapons[0]);
+      Scroll(1);
+   }
+
+   private void Update()
+   {
+      // Scroll up/down input
+      float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+      if (Mathf.Abs(scrollInput) > 0)
+      {
+         Scroll(scrollInput);
+      }
+
+      // Left click to shoot
+      if (Input.GetButtonDown("Fire1"))
+      {
+         Shoot();
+      }
+   }
+
+   void Shoot()
+   {
+      GameObject proj = Instantiate(equippedWeapon.projectile, firePoint.transform.position, firePoint.transform.rotation);
+      Rigidbody rb = proj.GetComponent<Rigidbody>();
+      rb.velocity = firePoint.forward * equippedWeapon.projectileSpeed;
    }
 
    private void Scroll(float input)
@@ -59,6 +84,11 @@ public class PlayerInventory : MonoBehaviour
          newWep.ChangeUnlock(true);
          equippedWeapons.Add(newWep);
       }
+
+      if (!initialised)
+      {
+         initialised = true;
+      }
    }
 
    public void EquipWeapon(WeaponScriptableObject newWep)
@@ -75,6 +105,5 @@ public class PlayerInventory : MonoBehaviour
    void OnDisable()
    {
       equippedWeapons.Clear();
-      controls.AnnounceMouseScroll -= Scroll;
    }
 }

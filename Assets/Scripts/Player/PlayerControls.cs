@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,4 +64,4 @@ public class PlayerControls : MonoBehaviour
         playerInputs.MouseInputs.RightClick.performed -= RightClick;
         playerInputs.MouseInputs.RightClick.canceled -= RightClick;
     }
-}
+}*/

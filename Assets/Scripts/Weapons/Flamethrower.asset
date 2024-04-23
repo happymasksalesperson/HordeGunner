@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Flamethrower
   m_EditorClassIdentifier: 
   name: Flamethrower
+  projectileSpeed: 50
   firingRate: 0.1
   damage: 10
-  projectile: {fileID: 0}
+  projectile: {fileID: 4335027342880507766, guid: 5b0e5fc0b65e6ef4b9ec202c834072c7,
+    type: 3}
   equipped: 0
-  unlocked: 0
+  unlocked: 1
+  readyToFire: 1

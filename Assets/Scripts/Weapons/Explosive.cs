@@ -26,6 +26,7 @@ public class Explosive : MonoBehaviour
       hp.AnnounceDeath += Explode;
    }
 
+   [ContextMenu("Explode")]
    public void Explode()
    {
       StartCoroutine(ExpandExplosion());
