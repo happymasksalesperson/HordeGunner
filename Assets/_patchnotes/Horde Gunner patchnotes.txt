@@ -34,3 +34,10 @@
 
 -- the player can now shoot projectiles that kill nippers. npc pool reuses dead nippers instead of spawning new ones
 
+1.4
+
+-- reinstated Combo Tracker, IncreaseCombo is subscribed to NPC Health Components on spawn, combo increases when they die
+
+-- Combo decreases over time
+
+-- Reimported TMP package

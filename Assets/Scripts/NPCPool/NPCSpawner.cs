@@ -7,6 +7,8 @@ public class NPCSpawner : MonoBehaviour
 {
     public GameObject NPCPrefab;
 
+    public ComboTracker comboTracker;
+
     public Transform spawnPos;
 
     public Transform targetPoint;
@@ -30,6 +32,9 @@ public class NPCSpawner : MonoBehaviour
 
             HealthComponent HP = newNPC.GetComponent<HealthComponent>();
             HP.AnnounceGameObject += AddToDeathPool;
+            
+            //where to unsubscribe?
+            HP.AnnounceDeath += comboTracker.IncreaseCombo;
         }
         else if (deadNPCS.Count > 0)
         {
