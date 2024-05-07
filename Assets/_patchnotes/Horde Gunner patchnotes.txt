@@ -41,3 +41,11 @@
 -- Combo decreases over time
 
 -- Reimported TMP package
+
+1.5
+
+-- added BlackHole.cs
+
+-- added FallingInBlackHole State to Nipper sensor
+
+-- added IFallInBlackHoles interface

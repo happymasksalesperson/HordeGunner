@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using Anthill.AI;
 using UnityEngine;
 
-public class NipperSensor : MonoBehaviour, ISense
+public class NipperSensor : MonoBehaviour, ISense, IFallInBlackHoles
 {
+    public Transform target;
+    
     public bool spawned;
     public bool isAlive;
     public bool inRange;
     public bool attacking;
+    public bool fallingInBlackHole;
 
     public event Action<NipperAnimationEnum> AnnounceAnimation;
 
@@ -56,6 +59,7 @@ public class NipperSensor : MonoBehaviour, ISense
             aWorldState.Set(NipperScenarioEnum.Alive, isAlive);
             aWorldState.Set(NipperScenarioEnum.InRange, inRange);
             aWorldState.Set(NipperScenarioEnum.Attacking, attacking);
+            aWorldState.Set(NipperScenarioEnum.BlackHole, fallingInBlackHole);
         }
         aWorldState.EndUpdate();
     }
@@ -68,5 +72,10 @@ public class NipperSensor : MonoBehaviour, ISense
     void OnDisable()
     {
         HP.AnnounceDeath -= Die;
+    }
+
+    public void InBlackHole(bool input)
+    {
+        fallingInBlackHole = input;
     }
 }

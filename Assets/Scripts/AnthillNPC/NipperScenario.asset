@@ -22,6 +22,8 @@ MonoBehaviour:
       name: InRange
     - id: 3
       name: Attacking
+    - id: 4
+      name: BlackHole
   actions:
   - name: Attack
     isDefault: 0
@@ -35,6 +37,8 @@ MonoBehaviour:
       value: 1
     - id: 0
       value: 1
+    - id: 4
+      value: 0
     post:
     - id: 3
       value: 1
@@ -61,6 +65,8 @@ MonoBehaviour:
       value: 1
     - id: 2
       value: 0
+    - id: 4
+      value: 0
     post:
     - id: 2
       value: 1
@@ -75,6 +81,17 @@ MonoBehaviour:
     post:
     - id: 1
       value: 1
+  - name: BlackHole
+    isDefault: 0
+    state: {fileID: 8008358374841180270, guid: 2ceaf236000e6a148b2bbf722b991d5f, type: 3}
+    cost: 0
+    position: {x: 1020, y: 305}
+    pre:
+    - id: 4
+      value: 1
+    post:
+    - id: 4
+      value: 0
   goals:
   - name: AttackTarget
     isDefault: 1
@@ -88,8 +105,10 @@ MonoBehaviour:
       value: 1
     - id: 3
       value: 1
+    - id: 4
+      value: 0
   worldStates:
-  - position: {x: 848.33325, y: 109.66666}
+  - position: {x: 839.99976, y: 56.333313}
     isAutoUpdate: 1
     list:
     - id: 0
@@ -97,6 +116,8 @@ MonoBehaviour:
     - id: 1
       value: 1
     - id: 2
-      value: 1
+      value: 0
     - id: 3
-      value: 1
+      value: 0
+    - id: 4
+      value: 0

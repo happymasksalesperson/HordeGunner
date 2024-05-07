@@ -90,9 +90,9 @@ GameObject:
   - component: {fileID: 4907350232802763142}
   - component: {fileID: 4907350232802763137}
   - component: {fileID: 6507455520933257592}
-  - component: {fileID: 7491153392295542826}
   - component: {fileID: 6776042299622677143}
   - component: {fileID: 9025317427430344555}
+  - component: {fileID: 1709748169630129086}
   m_Layer: 0
   m_Name: AnthillNipper
   m_TagString: Untagged
@@ -127,10 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348a6b6b66878674ab6d9383aac837f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   spawned: 0
   isAlive: 0
   inRange: 0
   attacking: 0
+  fallingInBlackHole: 0
   HP: {fileID: 6776042299622677143}
   ragdoll: {fileID: 3055953113661658068, guid: db88d7a7da935874e89a58086e958e42, type: 3}
 --- !u!114 &4907350232802763137
@@ -170,20 +172,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7491153392295542826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4907350232802763139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4205909922d87df49bdefd6fcc24bcfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  agent: {fileID: 6507455520933257592}
 --- !u!114 &6776042299622677143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +201,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1.5, z: 0.5}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &1709748169630129086
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4907350232802763139}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &4907350232361897509
 PrefabInstance:
   m_ObjectHideFlags: 0

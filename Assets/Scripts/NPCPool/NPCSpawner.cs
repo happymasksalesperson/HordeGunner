@@ -24,17 +24,16 @@ public class NPCSpawner : MonoBehaviour
         {
             GameObject newNPC = Instantiate(NPCPrefab, spawnPos.position, spawnPos.rotation);
             spawnedNPCs.Add(newNPC);
-            
-            //HACK
-            NavmeshTest sensor = newNPC.GetComponent<NavmeshTest>();
+
+            NipperSensor sensor = newNPC.GetComponent<NipperSensor>();
             sensor.target = targetPoint;
-            sensor.MoveToTarget();
 
             HealthComponent HP = newNPC.GetComponent<HealthComponent>();
             HP.AnnounceGameObject += AddToDeathPool;
             
             //where to unsubscribe?
             HP.AnnounceDeath += comboTracker.IncreaseCombo;
+            HP.Resurrect();
         }
         else if (deadNPCS.Count > 0)
         {
@@ -44,12 +43,11 @@ public class NPCSpawner : MonoBehaviour
             NPC.SetActive(true);
             NPC.transform.position = spawnPos.transform.position;
             NPC.transform.rotation = spawnPos.transform.rotation;
+            NipperSensor sensor = NPC.GetComponent<NipperSensor>();
+            sensor.target = targetPoint;
             HealthComponent HP = NPC.GetComponent<HealthComponent>();
             HP.Resurrect();
             
-            NavmeshTest sensor = NPC.GetComponent<NavmeshTest>();
-            sensor.target = targetPoint;
-            sensor.MoveToTarget();
         }
     }
 

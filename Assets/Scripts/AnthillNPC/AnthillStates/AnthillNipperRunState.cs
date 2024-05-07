@@ -12,5 +12,14 @@ public class AnthillNipperRunState : NipperAnthillStateBase
     {
         base.Enter();
         sensor.SetAnimation(NipperAnimationEnum.Run);
+        agent.SetDestination(sensor.target.position);
+    }
+
+    public override void Execute(float aDeltaTime, float aTimeScale)
+    {
+        base.Execute(aDeltaTime, aTimeScale);
+        distance = Vector3.Distance(sensor.transform.position, sensor.target.position);
+        if (distance <= minDist)
+            sensor.inRange = true;
     }
 }

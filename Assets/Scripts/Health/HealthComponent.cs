@@ -19,11 +19,6 @@ public class HealthComponent : MonoBehaviour, ITakeDamage
 
     public int testHPAmount;
 
-    void OnEnable()
-    {
-        ChangeHealth(maxHP);
-    }
-
     public void TestChangeHealth()
     {
         ChangeHealth(testHPAmount);
