@@ -11,15 +11,17 @@ public class PlayerInventory : MonoBehaviour
    public GameObject model;
 
    public WeaponScriptableObject equippedWeapon;
+   public float equippedWeaponRechargeTimer;
    
    public List<WeaponScriptableObject> allWeapons = new List<WeaponScriptableObject>();
 
    public List<WeaponScriptableObject> equippedWeapons = new List<WeaponScriptableObject>();
-
+   
    public int equipIndex;
 
    public bool initialised = false;
    
+   public event Action<float> AnnounceRechargeTimer;
    public event Action<WeaponScriptableObject> AnnounceEquippedWeapon;
 
    public void Start()
@@ -41,19 +43,23 @@ public class PlayerInventory : MonoBehaviour
       }
 
       // Left click to shoot
-      if (Input.GetButtonDown("Fire1"))
+      if (Input.GetButtonDown("Fire1") && equippedWeapon.readyToFire)
       {
-         Shoot();
+         Shoot(equippedWeapon);
       }
+
+      equippedWeaponRechargeTimer = equippedWeapon.rechargeTimer;
+      AnnounceRechargeTimer?.Invoke(equippedWeapon.rechargeTimer);
    }
 
-   void Shoot()
+   void Shoot(WeaponScriptableObject targetWep)
    {
-      GameObject proj = Instantiate(equippedWeapon.projectile, firePoint.transform.position, firePoint.transform.rotation);
+      GameObject proj = Instantiate(targetWep.projectile, firePoint.transform.position, firePoint.transform.rotation);
       Rigidbody rb = proj.GetComponent<Rigidbody>();
-      rb.velocity = firePoint.forward * equippedWeapon.projectileSpeed;
+      rb.velocity = firePoint.forward * targetWep.projectileSpeed; 
+      targetWep.StartCooldown();  
    }
-
+   
    private void Scroll(float input)
    {
       int newIndex = equipIndex;

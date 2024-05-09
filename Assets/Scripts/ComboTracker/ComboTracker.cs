@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ComboTracker : MonoBehaviour
 {
-    public TMP_Text comboText;
-    public TMP_Text comboNameText;
     public int combo;
     public float decayTimer;
     public float decayRate = 1.0f;
+
+    public event Action<string, int> AnnounceComboStrings;
+
+    public event Action<float> AnnounceComboTimer;
 
     public enum ComboName
     {
@@ -51,36 +54,13 @@ public class ComboTracker : MonoBehaviour
         return comboName.ToString();
     }
 
-    void UpdateComboNameText()
-    {
-        if (combo == 0)
-        {
-            comboText.text = "";
-            comboNameText.text = "";
-        }
-        else
-        {
-            comboText.text = "Combo: " + combo.ToString();
-            string comboNameString = GetComboName(combo).ToString();
-            
-            // Add exclamation marks for specific combo names
-            if (comboNameString == ComboName.SWEET.ToString())
-                comboNameString += "!";
-            else if (comboNameString == ComboName.SSUBLIME.ToString())
-                comboNameString += "!!";
-            else if (comboNameString == ComboName.SSSICK.ToString())
-                comboNameString += "!!!";
-            
-            comboNameText.text = comboNameString;
-        }
-    }
-
     [ContextMenu("Increase Combo")]
     public void IncreaseCombo()
     {
         combo++;
         decayTimer = 5.0f;
-        UpdateComboNameText();
+        
+        AnnounceComboStrings?.Invoke(GetComboName(combo), combo);
     }
 
     public IEnumerator ComboDecay()
@@ -88,14 +68,15 @@ public class ComboTracker : MonoBehaviour
         while (true)
         {
             decayTimer -= Time.deltaTime * decayRate;
-
             if (decayTimer <= 0)
             {
                 combo = 0;
                 decayTimer = 0;
-                UpdateComboNameText();
+                AnnounceComboStrings?.Invoke(GetComboName(combo), combo);
             }
-
+            
+            AnnounceComboTimer.Invoke(decayTimer);
+            
             yield return null;
         }
     }

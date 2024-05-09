@@ -15,9 +15,10 @@ MonoBehaviour:
   name: Machine Gun
   projectileSpeed: 50
   firingRate: 0.3
+  rechargeTimer: 0
   damage: -100
   projectile: {fileID: 4335027342880507766, guid: 5b0e5fc0b65e6ef4b9ec202c834072c7,
     type: 3}
-  equipped: 1
+  equipped: 0
   unlocked: 1
   readyToFire: 1

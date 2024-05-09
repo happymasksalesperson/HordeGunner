@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 4335027341844321407}
   - component: {fileID: 4335027341844321400}
   - component: {fileID: 4335027341844321401}
+  - component: {fileID: 8474973291648670368}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -154,6 +155,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &8474973291648670368
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335027341844321404}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4335027342880507766
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,8 +178,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4335027342880507761}
   - component: {fileID: 4335027342880507760}
-  - component: {fileID: 4335027342880507763}
   - component: {fileID: 2238263082712555417}
+  - component: {fileID: 4335027342880507763}
+  - component: {fileID: 6248805855975903757}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -202,19 +217,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4335027342880507763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335027342880507766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7f6d22909c0b5429c99955aa474e0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: -100
 --- !u!54 &2238263082712555417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -231,3 +233,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4335027342880507763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335027342880507766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7f6d22909c0b5429c99955aa474e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: -100
+  active: 1
+--- !u!114 &6248805855975903757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335027342880507766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db3cb2302d6215c4cac099f3c74d571c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  dd: {fileID: 0}

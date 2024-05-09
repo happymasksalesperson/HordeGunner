@@ -7,7 +7,7 @@ using UnityEngine;
 public class NipperSensor : MonoBehaviour, ISense, IFallInBlackHoles
 {
     public Transform target;
-    
+
     public bool spawned;
     public bool isAlive;
     public bool inRange;
@@ -24,6 +24,7 @@ public class NipperSensor : MonoBehaviour, ISense, IFallInBlackHoles
     public void OnEnable()
     {
         deathDoll = Instantiate(ragdoll);
+        deathDoll.transform.SetParent(transform);
         deathDoll.SetActive(false);
         HP.AnnounceChangeHealth += Alive;
         HP.AnnounceDeath += Die;
@@ -39,15 +40,15 @@ public class NipperSensor : MonoBehaviour, ISense, IFallInBlackHoles
 
     private void Die()
     {
-        isAlive = false;
-        spawned = false;
-        
+        deathDoll.transform.SetParent(null);
+        // deathDoll.transform.position = transform.position;
         //HACK
-       // deathDoll.transform.position = new Vector3(transform.position.x, transform.position.y +1, transform.position.z);
-
-        deathDoll.transform.position = transform.position;
+        deathDoll.transform.position =
+            new Vector3(transform.position.x, transform.position.y , transform.position.z);
         deathDoll.transform.rotation = transform.rotation;
         deathDoll.SetActive(true);
+        isAlive = false;
+        spawned = false;
         gameObject.SetActive(false);
     }
 

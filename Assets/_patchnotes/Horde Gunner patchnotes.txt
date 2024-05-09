@@ -49,3 +49,5 @@
 -- added FallingInBlackHole State to Nipper sensor
 
 -- added IFallInBlackHoles interface
+
+-- updated PlayerInventory to use fire rate

@@ -7,39 +7,70 @@ public class BlackHole : MonoBehaviour
     public float growthRate;
     public float rotationSpeed;
     public float maxScale;
+    public float pullStrength;
     private float originalScale;
     public bool spinRight;
+    public float lifeSpan;
     private Vector3 rotationAxis;
-    public List<Transform> objectsInBlackHole = new List<Transform>();
+    public List<Rigidbody> objectsInBlackHole = new List<Rigidbody>();
     private Dictionary<Transform, Vector3> contactPoints = new Dictionary<Transform, Vector3>();
 
     private Coroutine growthCoroutine;
 
     private Coroutine shrinkCoroutine;
-    
+
     public bool active;
 
     public void OnEnable()
     {
-        Grow();
         originalScale = transform.localScale.x;
         int random = Random.Range(0, 2);
         spinRight = true;
 
         spinRight = random == 1 ? !spinRight : spinRight;
         rotationAxis = spinRight ? Vector3.up : -Vector3.up;
+        Grow();
+    }
+
+    private IEnumerator BlackHoleLife()
+    {
+        yield return new WaitForSeconds(lifeSpan);
+        Shrink();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        IFallInBlackHoles fallBehavior = other.GetComponent<IFallInBlackHoles>();
-        if (fallBehavior != null)
+        if (active)
         {
-            Vector3 contactPoint = other.ClosestPoint(transform.position);
-            contactPoints[other.transform] = contactPoint;
+            IFallInBlackHoles fallBehavior = other.GetComponent<IFallInBlackHoles>();
+            if (fallBehavior != null)
+            {
+                Vector3 contactPoint = other.ClosestPoint(transform.position);
+                contactPoints[other.transform] = contactPoint;
 
-            objectsInBlackHole.Add(other.transform);
-            fallBehavior.InBlackHole(true);
+                objectsInBlackHole.Add(other.transform.GetComponent<Rigidbody>());
+                fallBehavior.InBlackHole(true);
+                other.transform.SetParent(transform);
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Rigidbody obj = other.GetComponent<Rigidbody>();
+
+        if (obj != null && objectsInBlackHole.Contains(obj))
+        {
+            objectsInBlackHole.Remove(obj);
+            contactPoints.Remove(other.transform);
+
+            other.transform.SetParent(null);
+
+            IFallInBlackHoles IFall = obj.GetComponent<IFallInBlackHoles>();
+            if (IFall != null)
+            {
+                IFall.InBlackHole(false);
+            }
         }
     }
 
@@ -47,7 +78,6 @@ public class BlackHole : MonoBehaviour
     [ContextMenu("Grow")]
     void Grow()
     {
-        active = true;
         growthCoroutine = StartCoroutine(GrowOverTime());
     }
 
@@ -57,28 +87,40 @@ public class BlackHole : MonoBehaviour
         shrinkCoroutine = StartCoroutine(ShrinkOverTime());
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (active)
         {
             PullObjectsTowardsCenter();
         }
+
         RotateAroundYAxis();
     }
 
     private void PullObjectsTowardsCenter()
     {
-        foreach (Transform objTransform in objectsInBlackHole)
+        foreach (Rigidbody objRigidbody in objectsInBlackHole)
         {
-            Vector3 directionToCenter = (transform.position - objTransform.position).normalized;
+            if (objRigidbody != null)
+            {
+                Vector3 pointOfAttraction = transform.position;
+                Vector3 objPosition = objRigidbody.position;
 
-            Vector3 contactPoint = contactPoints[objTransform];
+                // Calculate direction towards the center from the object's position
+                Vector3 pullDirection = (pointOfAttraction - objPosition).normalized;
 
-            Vector3 directionToCenterFromContact = (transform.position - contactPoint).normalized;
+                // Apply the force towards the center
+                objRigidbody.AddForce(pullDirection * pullStrength * objRigidbody.mass);
 
-            Vector3 moveDirection = Vector3.Project(directionToCenter, directionToCenterFromContact);
+                // Calculate the new rotation looking away from the center
+                Quaternion toRotation = Quaternion.LookRotation(-pullDirection, Vector3.up);
 
-            objTransform.position += moveDirection * Time.deltaTime;
+                // Smoothly rotate the object to face away from the center
+                objRigidbody.MoveRotation(Quaternion.Lerp(objRigidbody.rotation, toRotation, Time.fixedDeltaTime * pullStrength));
+
+                // Debug line showing the direction of force applied
+                Debug.DrawLine(objPosition, pointOfAttraction, Color.red);
+            }
         }
     }
 
@@ -89,22 +131,30 @@ public class BlackHole : MonoBehaviour
             transform.localScale += new Vector3(growthRate, growthRate, growthRate);
             yield return null;
         }
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        StartCoroutine(BlackHoleLife());
+        active = true;
     }
 
     IEnumerator ShrinkOverTime()
     {
         active = false;
+        foreach (Rigidbody obj in objectsInBlackHole)
+        {
+            obj.useGravity = true;
+            obj.transform.SetParent(null);
+            IFallInBlackHoles IFall = obj.GetComponent<IFallInBlackHoles>();
+            IFall.InBlackHole(false);
+        }
+
         while (transform.localScale.x > originalScale)
         {
             transform.localScale -= new Vector3(growthRate, growthRate, growthRate);
             yield return null;
         }
-
-        foreach (Transform obj in objectsInBlackHole)
-        {
-            IFallInBlackHoles IFall = obj.GetComponent<IFallInBlackHoles>();
-            IFall.InBlackHole(false);
-        }
+        
         Destroy(gameObject);
     }
 

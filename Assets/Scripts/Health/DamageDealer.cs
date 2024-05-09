@@ -7,12 +7,20 @@ public class DamageDealer : MonoBehaviour
 {
     public int damage;
 
+    public bool active = true;
+
+    public event Action AnnounceDamageDealt;
+    
     public void OnTriggerEnter(Collider other)
     {
-        ITakeDamage victim = other.GetComponent<ITakeDamage>();
-        if (victim != null)
+        if (active)
         {
-            victim.ChangeHealth(damage);
+            ITakeDamage victim = other.GetComponent<ITakeDamage>();
+            if (victim != null)
+            {
+                victim.ChangeHealth(damage);
+                AnnounceDamageDealt?.Invoke();
+            }
         }
     }
 }
