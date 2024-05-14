@@ -51,3 +51,15 @@
 -- added IFallInBlackHoles interface
 
 -- updated PlayerInventory to use fire rate
+
+1.6
+
+-- added MusicVisualiser.cs
+
+-- messed around with UI
+
+1.7
+
+-- added MinimapComponent.cs. added FilledCircle sprite
+
+-- added a second camera that only displays Layer Minimap. It runs to MinimapRenderTexture and is applied to objects via MinimapMaterial
