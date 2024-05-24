@@ -11,6 +11,8 @@ public class HealthComponent : MonoBehaviour, ITakeDamage
 
     public bool isAlive;
 
+    public event Action<int> AnnounceMaxHealth;
+
     public event Action<int> AnnounceChangeHealth;
 
     public event Action<GameObject> AnnounceGameObject;
@@ -26,6 +28,7 @@ public class HealthComponent : MonoBehaviour, ITakeDamage
 
     public void Resurrect()
     {
+        AnnounceMaxHealth?.Invoke(maxHP);
         ChangeHealth(maxHP);
     }
 

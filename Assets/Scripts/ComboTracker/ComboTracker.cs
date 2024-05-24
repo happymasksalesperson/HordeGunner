@@ -10,6 +10,8 @@ public class ComboTracker : MonoBehaviour
     public float decayTimer;
     public float decayRate = 1.0f;
 
+    public event Action<int> AnnounceCombo;
+
     public event Action<string, int> AnnounceComboStrings;
 
     public event Action<float> AnnounceComboTimer;
@@ -59,7 +61,7 @@ public class ComboTracker : MonoBehaviour
     {
         combo++;
         decayTimer = 5.0f;
-        
+        AnnounceCombo?.Invoke(combo);
         AnnounceComboStrings?.Invoke(GetComboName(combo), combo);
     }
 

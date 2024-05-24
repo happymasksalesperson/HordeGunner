@@ -10,14 +10,18 @@ public class MusicPlayer : MonoBehaviour
 
     private AudioSource audioSource;
 
-    void Start()
+    void OnEnable()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+    }
+
+    public void StartGame()
+    {
         PlaySong();
     }
 
     [ContextMenu("Play Song")]
-    private void PlaySong()
+    public void PlaySong()
     {
         if (audioSource.isPlaying)
         {
@@ -27,5 +31,10 @@ public class MusicPlayer : MonoBehaviour
         audioSource.clip = song; 
         audioSource.Play(); 
         AnnounceSongPlay?.Invoke(song, BPM); 
+    }
+
+    public void GameOver()
+    {
+        audioSource.Stop();
     }
 }

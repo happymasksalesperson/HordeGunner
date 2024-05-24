@@ -63,3 +63,28 @@
 -- added MinimapComponent.cs. added FilledCircle sprite
 
 -- added a second camera that only displays Layer Minimap. It runs to MinimapRenderTexture and is applied to objects via MinimapMaterial
+
+1.8
+
+-- updated NPCSpawnerController.cs. now places spawners in an even circle around Controller and starts them spawning in waves.
+
+-- added RotateTransform.cs to quickly rotate transforms
+
+-- added MusicMiddleman.cs. SpawnerController now increases spawntime to spawn NPCs and rotate in time with the music
+
+1.9
+
+-- added LevelTimer.cs, ResultsScreen.cs, HealthComponentView.cs and LevelManager.cs
+
+-- LevelManager is a middleman that controls and tracks NPCSpawner, ComboTracker, MusicPlayer and ResultsScreen, reading the Objective's HPBars to determine if the player lost the game (objective was destroyed) or survived the onslaught
+
+-- updated NipperAttack state to attack ITakeDamages
+
+-- readded lemon_milk font
+
+-- added DecayOverTime to fade materials out
+
+-- updated KnifeBrain
+
+TODO: Figure out how to get knives to stick into ragdoll
+TODO: Save/Load high scores

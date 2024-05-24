@@ -49,6 +49,10 @@ public class NipperSensor : MonoBehaviour, ISense, IFallInBlackHoles
         deathDoll.SetActive(true);
         isAlive = false;
         spawned = false;
+
+        DecayOverTime decay = deathDoll.GetComponent<DecayOverTime>();
+        decay.Decay();
+        
         gameObject.SetActive(false);
     }
 
