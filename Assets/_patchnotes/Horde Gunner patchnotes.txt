@@ -88,3 +88,9 @@
 
 TODO: Figure out how to get knives to stick into ragdoll
 TODO: Save/Load high scores
+
+2.0
+
+-- added BlackHoleProjectile.cs to BlackHole prefab. BlackHole now acts as a slow moving projectile that spawns a black hole on impact. 
+
+-- updated BlackHole.cs to properly detect and remove IFallIntoBlackHoles within its radius

@@ -14,22 +14,29 @@ public class BlackHole : MonoBehaviour
     private Vector3 rotationAxis;
     public List<Rigidbody> objectsInBlackHole = new List<Rigidbody>();
     private Dictionary<Transform, Vector3> contactPoints = new Dictionary<Transform, Vector3>();
-
     private Coroutine growthCoroutine;
-
     private Coroutine shrinkCoroutine;
-
     public bool active;
+    private Collider[] hitColliders = new Collider[100]; // Adjustable based on expected max objects
+    private SphereCollider sphereCollider;
 
-    public void OnEnable()
+    void Awake()
+    {
+        sphereCollider = GetComponent<SphereCollider>();
+        if (sphereCollider == null)
+        {
+            Debug.LogError("SphereCollider is missing from the BlackHole object.");
+        }
+    }
+
+    public void OnSpawn()
     {
         originalScale = transform.localScale.x;
         int random = Random.Range(0, 2);
-        spinRight = true;
-
         spinRight = random == 1 ? !spinRight : spinRight;
         rotationAxis = spinRight ? Vector3.up : -Vector3.up;
         Grow();
+        active = true;
     }
 
     private IEnumerator BlackHoleLife()
@@ -37,43 +44,6 @@ public class BlackHole : MonoBehaviour
         yield return new WaitForSeconds(lifeSpan);
         Shrink();
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (active)
-        {
-            IFallInBlackHoles fallBehavior = other.GetComponent<IFallInBlackHoles>();
-            if (fallBehavior != null)
-            {
-                Vector3 contactPoint = other.ClosestPoint(transform.position);
-                contactPoints[other.transform] = contactPoint;
-
-                objectsInBlackHole.Add(other.transform.GetComponent<Rigidbody>());
-                fallBehavior.InBlackHole(true);
-                other.transform.SetParent(transform);
-            }
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        Rigidbody obj = other.GetComponent<Rigidbody>();
-
-        if (obj != null && objectsInBlackHole.Contains(obj))
-        {
-            objectsInBlackHole.Remove(obj);
-            contactPoints.Remove(other.transform);
-
-            other.transform.SetParent(null);
-
-            IFallInBlackHoles IFall = obj.GetComponent<IFallInBlackHoles>();
-            if (IFall != null)
-            {
-                IFall.InBlackHole(false);
-            }
-        }
-    }
-
 
     [ContextMenu("Grow")]
     void Grow()
@@ -91,10 +61,50 @@ public class BlackHole : MonoBehaviour
     {
         if (active)
         {
+            DetectAndHandleObjects();
             PullObjectsTowardsCenter();
         }
-
         RotateAroundYAxis();
+    }
+
+    private void DetectAndHandleObjects()
+    {
+        int numColliders = Physics.OverlapSphereNonAlloc(transform.position, sphereCollider.radius * transform.localScale.x, hitColliders);
+        HashSet<Rigidbody> detectedRigidbodies = new HashSet<Rigidbody>();
+
+        for (int i = 0; i < numColliders; i++)
+        {
+            Collider col = hitColliders[i];
+            IFallInBlackHoles fallBehavior = col.GetComponent<IFallInBlackHoles>();
+            if (fallBehavior != null)
+            {
+                var rb = col.attachedRigidbody;
+                if (rb != null && !objectsInBlackHole.Contains(rb))
+                {
+                    objectsInBlackHole.Add(rb);
+                    Vector3 contactPoint = col.ClosestPoint(transform.position);
+                    contactPoints[col.transform] = contactPoint;
+                    fallBehavior.InBlackHole(true);
+                }
+                detectedRigidbodies.Add(rb);
+            }
+        }
+
+        // Remove objects that are no longer detected within the radius
+        for (int i = objectsInBlackHole.Count - 1; i >= 0; i--)
+        {
+            var rb = objectsInBlackHole[i];
+            if (!detectedRigidbodies.Contains(rb))
+            {
+                objectsInBlackHole.Remove(rb);
+                contactPoints.Remove(rb.transform);
+                IFallInBlackHoles fallBehavior = rb.GetComponent<IFallInBlackHoles>();
+                if (fallBehavior != null)
+                {
+                    fallBehavior.InBlackHole(false);
+                }
+            }
+        }
     }
 
     private void PullObjectsTowardsCenter()
@@ -105,20 +115,12 @@ public class BlackHole : MonoBehaviour
             {
                 Vector3 pointOfAttraction = transform.position;
                 Vector3 objPosition = objRigidbody.position;
-
-                // Calculate direction towards the center from the object's position
                 Vector3 pullDirection = (pointOfAttraction - objPosition).normalized;
-
-                // Apply the force towards the center
                 objRigidbody.AddForce(pullDirection * pullStrength * objRigidbody.mass);
 
-                // Calculate the new rotation looking away from the center
                 Quaternion toRotation = Quaternion.LookRotation(-pullDirection, Vector3.up);
-
-                // Smoothly rotate the object to face away from the center
                 objRigidbody.MoveRotation(Quaternion.Lerp(objRigidbody.rotation, toRotation, Time.fixedDeltaTime * pullStrength));
 
-                // Debug line showing the direction of force applied
                 Debug.DrawLine(objPosition, pointOfAttraction, Color.red);
             }
         }
@@ -131,11 +133,9 @@ public class BlackHole : MonoBehaviour
             transform.localScale += new Vector3(growthRate, growthRate, growthRate);
             yield return null;
         }
-
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         StartCoroutine(BlackHoleLife());
-        active = true;
     }
 
     IEnumerator ShrinkOverTime()
@@ -143,18 +143,15 @@ public class BlackHole : MonoBehaviour
         active = false;
         foreach (Rigidbody obj in objectsInBlackHole)
         {
-            obj.useGravity = true;
-            obj.transform.SetParent(null);
+            obj.useGravity = true; 
             IFallInBlackHoles IFall = obj.GetComponent<IFallInBlackHoles>();
             IFall.InBlackHole(false);
         }
-
         while (transform.localScale.x > originalScale)
         {
             transform.localScale -= new Vector3(growthRate, growthRate, growthRate);
             yield return null;
         }
-        
         Destroy(gameObject);
     }
 
